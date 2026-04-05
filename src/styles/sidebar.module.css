@@ -1,0 +1,109 @@
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 260px;
+  height: 100vh;
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border-color);
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 100;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  margin-bottom: 48px;
+}
+
+.logoBox {
+  width: 38px;
+  height: 38px;
+  background-color: var(--color-primary);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+}
+
+.brandInfo h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.brandInfo p {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.navMenu {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+.navItem:hover {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+.navActive {
+  background-color: var(--color-active-bg);
+  color: var(--color-primary);
+  border-right: 3px solid var(--color-primary);
+  border-radius: 0 10px 10px 0;
+  margin-left: -20px;
+  padding-left: 32px;
+}
+
+.upgradeCard {
+  background: linear-gradient(135deg, var(--warning) 0%, var(--color-primary) 100%);
+  padding: 20px;
+  border-radius: 16px;
+  color: white;
+}
+
+.upgradeCard h4 {
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+
+.upgradeCard p {
+  font-size: 0.8rem;
+  margin-bottom: 16px;
+  opacity: 0.9;
+}
+
+.btnUpgrade {
+  background-color: white;
+  color: var(--color-primary);
+  border: none;
+  padding: 10px 0;
+  width: 100%;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
