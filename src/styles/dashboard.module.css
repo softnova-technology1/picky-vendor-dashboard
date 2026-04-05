@@ -1,0 +1,368 @@
+.container {
+  padding: 32px;
+  background: var(--bg-main);
+  min-height: calc(100vh - 88px);
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 24px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: var(--shadow-soft);
+}
+
+.headerText {
+  margin-bottom: 32px;
+}
+
+.headerText h1 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.headerText p {
+  color: var(--text-secondary);
+  margin-top: 8px;
+}
+
+.statHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.statIcon {
+  width: 42px;
+  height: 42px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.trendBadge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.trendUp {
+  color: var(--success);
+  background-color: var(--success-bg);
+}
+
+.trendDown {
+  color: var(--danger);
+  background-color: var(--danger-bg);
+}
+
+.trendNeutral {
+  color: var(--text-secondary);
+  background-color: #f1f1f1;
+}
+
+.statInfo h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-top: 4px;
+}
+
+.statInfo p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+/* Performance Section (Chart + Alerts) */
+.performanceRow {
+  display: grid;
+  grid-template-columns: 2.5fr 1fr;
+  gap: 24px;
+  margin-top: 32px;
+}
+
+.chartCard {
+  background-color: white;
+  padding: 32px;
+  border-radius: 24px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-soft);
+}
+
+.chartHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 32px;
+}
+
+.chartTitle h3 {
+  font-size: 1.25rem;
+}
+
+.chartTitle p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.chartTabs {
+  display: flex;
+  background-color: #f6f6f6;
+  padding: 4px;
+  border-radius: 8px;
+}
+
+.tab {
+  padding: 6px 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--text-secondary);
+}
+
+.tabActive {
+  background-color: white;
+  color: var(--color-primary);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.chartBarsContainer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 240px;
+  padding-top: 40px;
+}
+
+.barGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.bar {
+  width: 70%;
+  max-width: 50px;
+  background-color: #f1f1f1;
+  border-radius: 6px;
+  position: relative;
+}
+
+.barActive {
+  background-color: var(--color-primary);
+}
+
+.barTooltip {
+  position: absolute;
+  top: -45px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #1d1d1d;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.barTooltip::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #1d1d1d;
+}
+
+.barLabel {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+/* Sidebar Columns (Alerts & Activity) */
+.alertsCol {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.alertCardGold {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
+  padding: 24px;
+  border-radius: 24px;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.alertCardGold h4 {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+}
+
+.alertCardGold p {
+  font-size: 0.85rem;
+  margin-bottom: 24px;
+  line-height: 1.4;
+  opacity: 0.9;
+}
+
+.btnInventory {
+  background-color: #fefefe;
+  color: var(--color-primary);
+  border: none;
+  padding: 10px 0;
+  width: 100%;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.activityCard {
+  background-color: white;
+  padding: 24px;
+  border-radius: 24px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-soft);
+}
+
+.activityCard h4 {
+  margin-bottom: 24px;
+}
+
+.activityList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.activityItem {
+  display: flex;
+  gap: 12px;
+}
+
+.activityDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-top: 6px;
+}
+
+.activityDetails p {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.activityDetails span {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Orders Table Section */
+.ordersSection {
+  background-color: white;
+  padding: 0;
+  border-radius: 24px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+  margin-top: 32px;
+}
+
+.ordersHeader {
+  padding: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ordersHeader h3 {
+  font-size: 1.25rem;
+}
+
+.viewAll {
+  color: var(--color-primary);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.tableContainer {
+  overflow-x: auto;
+}
+
+.ordersTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ordersTable th {
+  padding: 16px 32px;
+  text-align: left;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.ordersTable td {
+  padding: 16px 32px;
+  font-size: 0.9rem;
+  color: var(--text-main);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.customerCell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 500;
+}
+
+.customerAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #f1f1f1;
+}
+
+.statusBadge {
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.status-pending { color: var(--warning); background-color: var(--warning-bg); }
+.status-shipped { color: var(--info); background-color: var(--info-bg); }
+.status-delivered { color: var(--success); background-color: var(--success-bg); }
+
+.actionDots {
+  color: var(--text-muted);
+  cursor: pointer;
+  letter-spacing: 2px;
+}
