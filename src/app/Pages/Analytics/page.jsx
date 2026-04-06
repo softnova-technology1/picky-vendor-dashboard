@@ -16,9 +16,11 @@ import {
   Smartphone,
   Tablet,
   LayoutGrid,
-  BarChart3,
   ExternalLink,
-  Info
+  Info,
+  CheckCircle2,
+  AlertCircle,
+  X
 } from 'lucide-react';
 import { 
   BarChart, 
@@ -64,10 +66,43 @@ const TOP_PERFORMERS = [
   { id: 1, name: 'Bauhaus Lounge Chair', category: 'Furniture / Living', revenue: '$84,200', sales: '183 Sales', img: '1' },
   { id: 2, name: 'Eclipse Brass Floor Lamp', category: 'Lighting / Studio', revenue: '$32,150', sales: '94 Sales', img: '2' },
   { id: 3, name: 'Kurdish Geometric Rug', category: 'Textiles / Decor', revenue: '$28,400', sales: '72 Sales', img: '3' },
+  { id: 4, name: 'Vintage Marble Vase', category: 'Ceramics / Deco', revenue: '$18,400', sales: '45 Sales', img: '4' },
+  { id: 5, name: 'Oak Sideboard', category: 'Storage / Living', revenue: '$12,400', sales: '32 Sales', img: '5' },
 ];
 
 export default function AnalyticsPage() {
   const [activeToggle, setActiveToggle] = useState('Monthly');
+  const [alerts, setAlerts] = useState([]);
+  const [showPerformersModal, setShowPerformersModal] = useState(false);
+
+  // Add Alert Logic
+  const addAlert = (message, type = 'success') => {
+    const id = Date.now();
+    setAlerts(prev => [...prev, { id, message, type }]);
+    setTimeout(() => {
+      setAlerts(prev => prev.filter(alert => alert.id !== id));
+    }, 4000);
+  };
+
+  const handleExportReport = () => {
+    addAlert("Preparing Intelligence Report for export...", "success");
+    
+    // Simulate data gathering and real file download
+    setTimeout(() => {
+      const reportContent = "Category,Sales,Projection\nMAY,45,110\nJUN,52,120\nJUL,38,80\nAUG,65,115\nSEP,48,125\nOCT,70,130\nNOV,55,120";
+      const blob = new Blob([reportContent], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.setAttribute('hidden', '');
+      a.setAttribute('href', url);
+      a.setAttribute('download', 'Intelligence_Report_2024.csv');
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      
+      addAlert("Report (CSV) downloaded successfully!", "success");
+    }, 2000);
+  };
 
   return (
     <AppLayout>
@@ -78,11 +113,21 @@ export default function AnalyticsPage() {
             <h1>Intelligence Hub</h1>
             <p>Measuring the pulse of your curated marketplace.</p>
           </div>
-          <button className={styles.exportBtn}>
+          <button className={styles.exportBtn} onClick={handleExportReport}>
             <Download size={18} />
             Export Report
           </button>
         </header>
+
+        {/* Global Alerts Container */}
+        <div className={styles.alertsContainer}>
+          {alerts.map(alert => (
+            <div key={alert.id} className={styles.alert} style={{ borderLeftColor: alert.type === 'error' ? '#ef4444' : '#b45309' }}>
+              {alert.type === 'success' ? <CheckCircle2 size={18} color="#b45309" /> : <AlertCircle size={18} color="#ef4444" />}
+              <span style={{ fontWeight: 600, fontSize: '13px' }}>{alert.message}</span>
+            </div>
+          ))}
+        </div>
 
         {/* 4 Stats Summary Cards */}
         <section className={styles.statsGrid}>
@@ -169,7 +214,7 @@ export default function AnalyticsPage() {
             <section className={styles.sectionCard} style={{ maxWidth: '600px' }}>
               <div className={styles.sectionTitle}>
                 <h2>Top Performers</h2>
-                <div className={styles.viewAll}>View All</div>
+                <div className={styles.viewAll} onClick={() => setShowPerformersModal(true)}>View All</div>
               </div>
               <div className={styles.performerList}>
                 {TOP_PERFORMERS.map((item) => (
@@ -227,6 +272,52 @@ export default function AnalyticsPage() {
           </div>
         </div>
       </div>
+
+      {/* Top Performers Modal */}
+      {showPerformersModal && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.performerModal}>
+            <div className={styles.modalHeader}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <TrendingUp size={24} color="#b45309" />
+                <h2 style={{ fontSize: '20px', fontWeight: 800 }}>Full Leaderboard</h2>
+              </div>
+              <div className={styles.closeBtn} onClick={() => setShowPerformersModal(false)}>
+                <X size={24} />
+              </div>
+            </div>
+            
+            <div className={styles.modalBody}>
+              {TOP_PERFORMERS.map((item) => (
+                <div key={item.id} className={styles.performerItem}>
+                  <div className={styles.performerInfo}>
+                    <div className={styles.performerImg}>
+                      <div style={{ border: '1px solid #1e293b', width: '32px', textAlign: 'center', fontWeight: '700', fontSize: '12px' }}>{item.img}</div>
+                    </div>
+                    <div className={styles.performerDesc}>
+                      <h4>{item.name}</h4>
+                      <p>{item.category}</p>
+                    </div>
+                  </div>
+                  <div className={styles.performerStats}>
+                    <div className={styles.performerRevenue}>{item.revenue}</div>
+                    <div className={styles.performerSales}>{item.sales}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div style={{ padding: '20px', borderTop: '1px solid #e2e8f0', display: 'flex', justifyContent: 'flex-end' }}>
+              <button 
+                style={{ padding: '10px 24px', backgroundColor: '#b45309', color: 'white', border: 'none', borderRadius: '10px', fontWeight: 700, cursor: 'pointer' }}
+                onClick={() => setShowPerformersModal(false)}
+              >
+                Done
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </AppLayout>
   );
 }
