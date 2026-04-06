@@ -1,71 +1,248 @@
 .navbar {
-  width: 100%;
   height: 88px;
-  background: var(--bg-card);
+  background-color: white;
   border-bottom: 1px solid var(--border-color);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 32px;
+  padding: 0 48px;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 50;
+}
+
+.searchContainer {
+  position: relative;
+  z-index: 100;
 }
 
 .searchBar {
-  background-color: #f6f6f6;
-  border-radius: 12px;
-  padding: 10px 16px;
   display: flex;
   align-items: center;
   gap: 12px;
-  width: 400px;
+  background-color: #f9fafb;
+  border-radius: 12px;
+  padding: 10px 20px;
+  width: 500px;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+
+.searchBar:focus-within {
+  border-color: var(--color-primary);
+  background-color: white;
+  box-shadow: 0 0 0 4px var(--color-primary-light);
 }
 
 .searchBar input {
-  border: none;
   background: transparent;
-  outline: none;
+  border: none;
+  font-size: 0.95rem;
+  color: #111827;
   width: 100%;
-  font-size: 0.9rem;
+  outline: none;
+}
+
+.suggestionsDropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 100%;
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  overflow: hidden;
+  padding: 8px;
+}
+
+.suggestionItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
   color: var(--text-main);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.suggestionItem:hover {
+  background-color: var(--bg-main);
+  color: var(--color-primary);
+}
+
+.suggestionIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+}
+
+.suggestionItem:hover .suggestionIcon {
+  color: var(--color-primary);
+}
+
+.searchBar input::placeholder {
+  color: #9ca3af;
 }
 
 .navActions {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 20px;
+}
+
+.navIconGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+
+.badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 6px;
+  height: 6px;
+  background-color: var(--color-primary);
+  border-radius: 50%;
+}
+
+.divider {
+  width: 1px;
+  height: 24px;
+  background-color: #efefef;
+}
+
+.profileSection {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+}
+
+.profileText {
+  text-align: right;
+}
+
+.profileRole {
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  letter-spacing: 0.5px;
+}
+
+.profileName {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.avatarWrapper {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid #efefef;
+}
+
+.adminAvatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  width: 240px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: var(--shadow-soft);
+  padding: 12px;
+  z-index: 300;
+  text-align: left;
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-size: 14px;
 }
 
 .iconBtn {
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--text-secondary);
-  font-size: 1.2rem;
+  padding: 8px;
+  border-radius: 10px;
+  transition: all 0.2s;
+  position: relative;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
-.profileSection {
+.iconBtn:hover {
+  background-color: #f3f4f6;
+}
+
+.dropdownItem:hover {
+  background: var(--bg-main);
+}
+
+.profileCard {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
-  padding-left: 24px;
-  border-left: 1px solid var(--border-color);
+  gap: 8px;
+  padding: 12px 0 16px;
+  border-bottom: 1px solid var(--border-color);
 }
 
-.profileInfo {
-  text-align: right;
-}
-
-.profileName {
-  font-weight: 600;
-  font-size: 0.9rem;
-}
-
-.avatar {
-  width: 38px;
-  height: 38px;
+.profileAvatar {
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
-  background-color: var(--text-main);
-  background-image: url('https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&q=80');
-  background-size: cover;
+  object-fit: cover;
+  border: 2px solid var(--color-primary-light);
+}
+
+.profileCard h4 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.profileCard p {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.logoutButton {
+  width: 100%;
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--color-primary);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.2s;
+}
+
+.logoutButton:hover {
+  opacity: 0.9;
 }

@@ -1,6 +1,10 @@
 import AppLayout from "../../../components/AppLayout";
 
-export default function ProductsPage() {
+export const metadata = {
+  title: "Settings",
+};
+
+export default function SettingsPage() {
   return (
     <AppLayout>
       <div style={{ padding: "32px" }}>

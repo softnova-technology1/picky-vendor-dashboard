@@ -1,5 +1,9 @@
 import AppLayout from "../../../components/AppLayout";
 
+export const metadata = {
+  title: "Payments",
+};
+
 export default function PaymentsPage() {
   return (
     <AppLayout>

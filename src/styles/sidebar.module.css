@@ -1,109 +1,195 @@
 .sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 260px;
-  height: 100vh;
-  background: var(--bg-sidebar);
+  width: 280px;
+  background-color: white;
   border-right: 1px solid var(--border-color);
-  padding: 24px 20px;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  padding: 32px 0;
   z-index: 100;
+}
+
+.sidebarContent {
+  display: flex;
+  flex-direction: column;
 }
 
 .brand {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 0 16px;
+  padding: 0 32px;
   margin-bottom: 48px;
 }
 
 .logoBox {
-  width: 38px;
-  height: 38px;
+  width: 52px;
+  height: 52px;
   background-color: var(--color-primary);
-  border-radius: 8px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  font-weight: 700;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 .brandInfo h3 {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--text-main);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1d1d1d;
+  margin-bottom: 2px;
 }
 
-.brandInfo p {
-  font-size: 0.75rem;
-  color: var(--text-secondary);
+.slogan {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
 }
+
+
+
 
 .navMenu {
-  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
 }
 
 .navItem {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px 16px;
-  color: var(--text-secondary);
+  padding: 12px 32px;
+  color: #717171;
   font-size: 0.95rem;
   font-weight: 500;
+  transition: all 0.2s;
+  position: relative;
   text-decoration: none;
-  border-radius: 10px;
-  transition: all 0.2s ease;
 }
 
 .navItem:hover {
-  background-color: var(--color-primary-light);
-  color: var(--color-primary);
+  background-color: #fafafa;
+  color: #1d1d1d;
+}
+
+.navIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
 }
 
 .navActive {
-  background-color: var(--color-active-bg);
+  background-color: var(--color-primary-light);
   color: var(--color-primary);
-  border-right: 3px solid var(--color-primary);
-  border-radius: 0 10px 10px 0;
-  margin-left: -20px;
-  padding-left: 32px;
-}
-
-.upgradeCard {
-  background: linear-gradient(135deg, var(--warning) 0%, var(--color-primary) 100%);
-  padding: 20px;
-  border-radius: 16px;
-  color: white;
-}
-
-.upgradeCard h4 {
-  font-size: 1rem;
-  margin-bottom: 4px;
-}
-
-.upgradeCard p {
-  font-size: 0.8rem;
-  margin-bottom: 16px;
-  opacity: 0.9;
-}
-
-.btnUpgrade {
-  background-color: white;
-  color: var(--color-primary);
-  border: none;
-  padding: 10px 0;
-  width: 100%;
-  border-radius: 8px;
   font-weight: 600;
-  font-size: 0.85rem;
+}
+
+.navActive::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background-color: var(--color-primary);
+  border-radius: 4px 0 0 4px;
+}
+
+.bottomSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.logoutWrapper {
+  padding: 0 16px;
+  margin-bottom: 8px;
+}
+
+.logoutBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background-color: transparent;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  color: #ef4444;
+  font-size: 0.95rem;
+  font-weight: 600;
   cursor: pointer;
+  transition: all 0.2s;
+}
+
+.logoutBtn:hover {
+  background-color: #fef2f2;
+  border-color: #fecaca;
+  transform: translateY(-1px);
+}
+
+.logoutBtn:active {
+  transform: translateY(0);
+}
+.userProfile {
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-top: 1px solid var(--border-color);
+  padding-top: 24px;
+}
+
+
+.userAvatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background-color: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.userInfo h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1d1d1d;
+}
+
+.userInfo p {
+  font-size: 0.8rem;
+  color: #717171;
+}
+
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 88px;
+    padding: 32px 12px;
+  }
+
+  .brandInfo,
+  .navLabel,
+  .bottomSection {
+    display: none;
+  }
+
+  .brand {
+    padding: 0;
+    justify-content: center;
+  }
+
+  .navItem {
+    justify-content: center;
+    padding: 14px 0;
+  }
 }
