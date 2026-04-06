@@ -1,0 +1,32 @@
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  background-color: var(--primary);
+  border-radius: 50%;
+  z-index: 10000;
+  pointer-events: none;
+  box-shadow: 0 0 10px var(--primary);
+}
+
+.cursorTrail {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--primary);
+  border-radius: 50%;
+  z-index: 9999;
+  pointer-events: none;
+  background: rgba(99, 102, 241, 0.05);
+  backdrop-filter: blur(2px);
+}
+
+@media (max-width: 768px) {
+  .cursor, .cursorTrail {
+    display: none;
+  }
+}
