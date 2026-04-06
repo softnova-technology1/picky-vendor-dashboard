@@ -111,6 +111,16 @@ export default function SettingsPage() {
   
   const [showNotifDropdown, setShowNotifDropdown] = useState(false);
   const [showAllActivityModal, setShowAllActivityModal] = useState(false);
+  const [alerts, setAlerts] = useState([]);
+
+  // Add Alert Logic
+  const addAlert = (message, type = 'success') => {
+    const id = Date.now();
+    setAlerts(prev => [...prev, { id, message, type }]);
+    setTimeout(() => {
+      setAlerts(prev => prev.filter(alert => alert.id !== id));
+    }, 4000);
+  };
   
   const dropdownRef = useRef(null);
   const fileInputRef = useRef(null);
@@ -185,7 +195,31 @@ export default function SettingsPage() {
   };
 
   const handleSave = () => {
-    alert("Settings successfully updated!");
+    addAlert("Syncing preferences to cloud...", "success");
+    setTimeout(() => {
+      addAlert("Settings successfully saved!", "success");
+    }, 1500);
+  };
+
+  const handleDiscard = () => {
+    if (confirm("Reset all changes to original settings?")) {
+      setProfile({
+        fullName: "Julian Thorne",
+        storeName: "Thorne & Co. Curations"
+      });
+      setNotifState({
+        orderApp: true,
+        orderBrowser: false,
+        orderWhatsApp: false,
+        paymentApp: true,
+        paymentWhatsApp: true,
+        stockApp: true,
+        stockWhatsApp: false
+      });
+      setProfileImg("https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80");
+      setIsWhatsAppConnected(false);
+      addAlert("Changes discarded. Restored defaults.", "success");
+    }
   };
 
   const NotificationToggle = ({ id, checked, color = 'orange', onChange }) => (
@@ -535,10 +569,20 @@ export default function SettingsPage() {
 
             {/* Final Actions */}
             <div className={styles.footerActions} style={{ maxWidth: '100%' }}>
-              <span className={styles.btnSecondary}>Discard Changes</span>
+              <span className={styles.btnSecondary} onClick={handleDiscard}>Discard Changes</span>
               <button className={styles.btnPrimary} onClick={handleSave}>Save All Settings</button>
             </div>
           </div>
+        </div>
+
+        {/* Global Alerts Container */}
+        <div className={styles.alertsContainer}>
+          {alerts.map(alert => (
+            <div key={alert.id} className={styles.alert} style={{ borderTopColor: alert.type === 'error' ? '#ef4444' : '#a65e31' }}>
+              {alert.type === 'success' ? <CheckCircle2 size={40} color="#a65e31" /> : <XCircle size={40} color="#ef4444" />}
+              <span style={{ fontWeight: 700 }}>{alert.message}</span>
+            </div>
+          ))}
         </div>
       </div>
     </AppLayout>
