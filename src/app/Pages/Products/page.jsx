@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import AppLayout from "../../../components/AppLayout";
 import styles from "../../../styles/products.module.css";
 import Link from "next/link";
+import dynamic from "next/dynamic";
+const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 import { 
   Plus, 
   Search, 
@@ -167,14 +169,19 @@ export default function ProductsPage() {
               <h4>Weekly Performance</h4>
               <h3>Top Performing Category: Leather Goods</h3>
             </div>
-            <div className={styles.barChart}>
-              <div className={styles.bar} style={{ height: '30%' }}></div>
-              <div className={styles.bar} style={{ height: '50%' }}></div>
-              <div className={styles.bar} style={{ height: '40%' }}></div>
-              <div className={styles.barActive} style={{ height: '100%', width: '120px' }}></div>
-              <div className={styles.bar} style={{ height: '60%' }}></div>
-              <div className={styles.bar} style={{ height: '45%' }}></div>
-              <div className={styles.bar} style={{ height: '70%' }}></div>
+            <div style={{ height: '120px', marginTop: 'auto' }}>
+              <Chart 
+                options={{
+                  chart: { type: 'bar', sparkline: { enabled: true } },
+                  plotOptions: { bar: { columnWidth: '60%', borderRadius: 2 } },
+                  colors: ['rgba(255,255,255,0.3)'],
+                  states: { active: { filter: { type: 'none' } }, hover: { filter: { type: 'lighten', value: 0.15 } } },
+                  tooltip: { enabled: false }
+                }}
+                series={[{ data: [30, 50, 40, 100, 60, 45, 70] }]}
+                type="bar"
+                height={120}
+              />
             </div>
           </div>
         </div>

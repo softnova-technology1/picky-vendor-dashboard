@@ -1,0 +1,533 @@
+.settingsContainer {
+  padding: 32px;
+  background-color: #f8f9fb;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  position: relative;
+}
+
+.headerText h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.headerText p {
+  color: #6b7280;
+  margin: 4px 0 0 0;
+  font-size: 14px;
+}
+
+.bellWrapper {
+  position: relative;
+}
+
+.bellIcon {
+  padding: 10px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #f1f3f5;
+}
+
+.bellIcon:hover {
+  background: #f3f4f6;
+  color: #a65e31;
+  transform: translateY(-2px);
+}
+
+.badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: #ef4444;
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
+}
+
+/* Notification Dropdown */
+.notifDropdown {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  width: 360px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  border: 1px solid #f1f3f5;
+  z-index: 1000;
+  overflow: hidden;
+  animation: dropdownFade 0.2s ease-out;
+}
+
+@keyframes dropdownFade {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.dropdownHeader {
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #f1f3f5;
+}
+
+.dropdownHeader h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0;
+  color: #111827;
+}
+
+.markRead {
+  font-size: 12px;
+  color: #a65e31;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.notifListContent {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.notifItem {
+  display: flex;
+  gap: 16px;
+  padding: 16px 20px;
+  border-bottom: 1px solid #f1f3f5;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.notifItem:hover {
+  background: #f9fafb;
+}
+
+.notifItemIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.notifItemText h4 {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 2px 0;
+  color: #111827;
+}
+
+.notifItemText p {
+  font-size: 12px;
+  color: #6b7280;
+  margin: 0 0 6px 0;
+  line-height: 1.4;
+}
+
+.notifTime {
+  font-size: 11px;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+.dropdownFooter {
+  padding: 12px;
+  text-align: center;
+  background: #f9fafb;
+  font-size: 13px;
+  font-weight: 600;
+  color: #a65e31;
+  cursor: pointer;
+}
+
+/* Modal Overlay Styles */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.activityModal {
+  background: white;
+  width: 100%;
+  max-width: 600px;
+  border-radius: 20px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.modalHeader {
+  padding: 24px;
+  border-bottom: 1px solid #f1f3f5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modalHeader h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+  color: #111827;
+}
+
+.closeIcon {
+  cursor: pointer;
+  color: #6b7280;
+  padding: 4px;
+}
+
+.activityScrollArea {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 0;
+}
+
+.singleColumnLayout {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Content Area */
+.contentArea {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid #f1f3f5;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+}
+
+.sectionHeader {
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f1f3f5;
+}
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.sectionTitle h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.sectionDesc {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* Notification Rows */
+.notifyList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.notifyRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.notifyLabel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.notifyAction {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* WhatsApp Specific */
+.whatsAppConnect {
+  background: #f0fff4;
+  padding: 12px 20px;
+  border-radius: 12px;
+  margin-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.whatsAppInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #059669;
+  font-weight: 600;
+}
+
+.whatsAppHelper {
+  font-size: 11px;
+  color: #6b7280;
+  margin-top: 2px;
+}
+
+.btnConnect {
+  padding: 8px 16px;
+  background: #eff6ff;
+  color: #2563eb;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btnConnect:hover {
+  background: #dbeafe;
+}
+
+.btnDisconnect {
+  font-size: 12px;
+  color: #ef4444;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Profile Section Styles */
+.profileSection {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.avatarUpload {
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.cameraBtn {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  background: #a65e31;
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.inputGroup label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #939aa3;
+}
+
+.inputGroup input {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #f1f3f5;
+  background: #f9fafb;
+  width: 100%;
+}
+
+/* Switch Component */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #f1f3f5;
+  transition: .4s;
+  border-radius: 20px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+.switch input:checked + .slider {
+  background-color: #a65e31;
+}
+
+.switch input:checked + .sliderGreen {
+  background-color: #10b981;
+}
+
+.switch input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+/* Footer Action Buttons */
+.footerActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 40px;
+  border-top: 1px solid #f1f3f5;
+  padding-top: 24px;
+}
+
+.btnSecondary {
+  padding: 10px 20px;
+  color: #6b7280;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btnPrimary {
+  padding: 10px 24px;
+  background: #a65e31;
+  color: white;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@media (max-width: 1000px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Alerts System */
+.alertsContainer {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  pointer-events: none;
+}
+
+.alert {
+  pointer-events: auto;
+  background: white;
+  padding: 24px 40px;
+  border-radius: 20px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  min-width: 320px;
+  border-top: 5px solid #a65e31;
+  animation: popUpNotif 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  text-align: center;
+}
+
+.alert span {
+  font-size: 16px !important;
+  color: #111827;
+}
+
+@keyframes popUpNotif {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+
