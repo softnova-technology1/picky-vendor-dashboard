@@ -15,11 +15,11 @@ export default function LoginPage() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if (email === "admin@pickyportal.com" && password === "123456") {
+    if (email && password) {
       localStorage.setItem("vendor-auth", "true");
       router.push("/Pages/Dashboard");
     } else {
-      setError("Invalid email or password. Please try again.");
+      setError("Please enter your login details.");
     }
   };
 
