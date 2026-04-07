@@ -1,6 +1,6 @@
 :global(:root) {
-  --primary: #6366f1;
-  --primary-hover: #4f46e5;
+  --primary: #1b85db;
+  --primary-hover: #1569ad;
   --bg-main: #f8fafc;
   --bg-card: #ffffff;
   --text-main: #1e293b;
@@ -98,13 +98,13 @@
 }
 
 .methodItem:hover {
-  border-color: #d97706;
-  background-color: #fffbeb;
+  border-color: #1b85db;
+  background-color: #eef8ff;
 }
 
 .methodItemSelected {
-  border-color: #d97706;
-  background-color: #fffbeb;
+  border-color: #1b85db;
+  background-color: #eef8ff;
 }
 
 .methodItemIcon {
@@ -119,7 +119,7 @@
 }
 
 .methodItemSelected .methodItemIcon {
-  background-color: #d97706;
+  background-color: #1b85db;
   color: white;
 }
 
@@ -127,7 +127,7 @@
   position: absolute;
   top: 8px;
   right: 8px;
-  background-color: #d97706;
+  background-color: #1b85db;
   color: white;
   border-radius: 50%;
   width: 18px;
@@ -172,7 +172,7 @@
 }
 
 .formInput:focus {
-  border-color: #d97706;
+  border-color: #1b85db;
   background-color: white;
 }
 
@@ -205,7 +205,7 @@
 
 .saveBtn {
   padding: 12px 32px;
-  background-color: #b45309;
+  background-color: #1b85db;
   color: white;
   border-radius: 8px;
   font-weight: 600;
@@ -214,7 +214,7 @@
 }
 
 .saveBtn:hover {
-  background-color: #92400e;
+  background-color: #1569ad;
 }
 
 .securityNote {
@@ -251,7 +251,7 @@
   padding: 10px;
   background-color: white;
   border-radius: 8px;
-  color: #d97706;
+  color: #1b85db;
 }
 
 .methodInfo h4 {
@@ -268,9 +268,9 @@
 .addMethodBtn {
   width: 100%;
   padding: 14px;
-  border: 1px dashed #d97706;
+  border: 1px dashed #1b85db;
   border-radius: 12px;
-  color: #d97706;
+  color: #1b85db;
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -282,7 +282,7 @@
 }
 
 .addMethodBtn:hover {
-  background-color: #fffbeb;
+  background-color: #eef8ff;
 }
 
 .container {
@@ -350,9 +350,39 @@
 
 .statIcon {
   padding: 10px;
-  background-color: rgba(99, 102, 241, 0.1);
-  color: var(--primary);
   border-radius: 10px;
+}
+
+.iconBlue {
+  background-color: rgba(27, 133, 219, 0.1);
+  color: #1b85db;
+}
+
+.iconGreen {
+  background-color: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+}
+
+.iconAmber {
+  background-color: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+}
+
+.profitIndicator {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 6px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.profitIndicator span {
+  color: #94a3b8;
+}
+
+.profitIndicator svg {
+  color: #22c55e;
 }
 
 /* Main Content Layout */
@@ -396,21 +426,38 @@
 }
 
 .balanceBox {
-  background: linear-gradient(135deg, var(--primary), #8b5cf6);
-  padding: 20px;
-  border-radius: 10px;
+  background: linear-gradient(135deg, #1b85db, #6366f1);
+  padding: 24px;
+  border-radius: 16px;
   color: white;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 20px -5px rgba(27, 133, 219, 0.4);
+}
+
+.balanceBox::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  width: 100px;
+  height: 100px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
 }
 
 .balanceLabel {
-  font-size: 13px;
-  opacity: 0.9;
-  margin-bottom: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0.8;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
 }
 
 .balanceAmount {
-  font-size: 28px;
-  font-weight: 800;
+  font-size: 34px;
+  font-weight: 850;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .inputGroup {
@@ -438,6 +485,81 @@
 
 .inputField:focus {
   border-color: var(--primary);
+  background-color: white;
+}
+
+.amountInputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.amountInputWrapper span {
+  position: absolute;
+  left: 16px;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.amountInputWrapper .inputField {
+  padding-left: 40px;
+  font-size: 24px;
+  font-weight: 700;
+  height: 60px;
+  background-color: #f1f5f9;
+}
+
+/* Method Tabs */
+.methodTabGroup {
+  display: flex;
+  background-color: #f1f5f9;
+  padding: 4px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  gap: 4px;
+}
+
+.methodTab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.methodTabActive {
+  background-color: white;
+  color: var(--primary);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.dynamicFieldsContainer {
+  min-height: 100px;
+}
+
+.animateField {
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .bankDetails {
@@ -557,12 +679,32 @@
 }
 
 .table tbody tr:hover {
-  background-color: rgba(99, 102, 241, 0.05);
+  background-color: rgba(27, 133, 219, 0.05);
 }
 
 .orderId {
   font-weight: 600;
   color: var(--primary);
+}
+
+.copyBtn {
+  background: #f1f5f9;
+  border: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #94a3b8;
+  transition: all 0.2s;
+}
+
+.copyBtn:hover {
+  background: var(--primary);
+  color: white;
+  transform: scale(1.1);
 }
 
 .badge {

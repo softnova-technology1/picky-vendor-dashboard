@@ -5,6 +5,8 @@ import dynamic from "next/dynamic";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 import { DollarSign, ShoppingBag, Users, Package, User } from "lucide-react";
 
+import Link from "next/link";
+
 export default function DashboardContent() {
   const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState("Weekly");
@@ -23,8 +25,8 @@ export default function DashboardContent() {
       trend: "+12%", 
       trendType: "Up", 
       icon: <DollarSign size={22} />,
-      color: "#6366f1",
-      bgColor: "#eef2ff"
+      color: "#1b85db",
+      bgColor: "#eef8ff"
     },
     { 
       label: "Total Product", 
@@ -84,7 +86,7 @@ export default function DashboardContent() {
       fontFamily: 'inherit',
     },
     dataLabels: { enabled: false },
-    stroke: { curve: 'smooth', width: 3, colors: ['#2798F5'] },
+    stroke: { curve: 'smooth', width: 3, colors: ['#1b85db'] },
     fill: {
       type: 'gradient',
       gradient: {
@@ -108,8 +110,8 @@ export default function DashboardContent() {
     },
     grid: { borderColor: '#f1f5f9', strokeDashArray: 4, padding: { left: 10, right: 10 } },
     tooltip: { theme: 'light', y: { formatter: (val) => `$${val.toLocaleString()}` } },
-    colors: ['#2798F5'],
-    markers: { size: 5, colors: ['#fff'], strokeColors: '#2798F5', strokeWidth: 2, hover: { size: 7 } }
+    colors: ['#1b85db'],
+    markers: { size: 5, colors: ['#fff'], strokeColors: '#1b85db', strokeWidth: 2, hover: { size: 7 } }
   };
 
   const activities = [
@@ -219,7 +221,7 @@ export default function DashboardContent() {
       <section className={styles.ordersSection}>
         <div className={styles.ordersHeader}>
           <h3>Recent Orders</h3>
-          <a href="#" className={styles.viewAll}>View All Orders</a>
+          <Link href="/Pages/Orders" className={styles.viewAll}>View All Orders</Link>
         </div>
         
         <div className={styles.tableContainer}>

@@ -47,7 +47,7 @@
 
 .bellIcon:hover {
   background: #f3f4f6;
-  color: #a65e31;
+  color: #1b85db;
   transform: translateY(-2px);
 }
 
@@ -105,7 +105,7 @@
 
 .markRead {
   font-size: 12px;
-  color: #a65e31;
+  color: #1b85db;
   font-weight: 600;
   cursor: pointer;
 }
@@ -164,7 +164,7 @@
   background: #f9fafb;
   font-size: 13px;
   font-weight: 600;
-  color: #a65e31;
+  color: #1b85db;
   cursor: pointer;
 }
 
@@ -376,7 +376,7 @@
   position: absolute;
   bottom: -4px;
   right: -4px;
-  background: #a65e31;
+  background: #1b85db;
   color: white;
   width: 24px;
   height: 24px;
@@ -447,7 +447,7 @@
 }
 
 .switch input:checked + .slider {
-  background-color: #a65e31;
+  background-color: #1b85db;
 }
 
 .switch input:checked + .sliderGreen {
@@ -477,7 +477,7 @@
 
 .btnPrimary {
   padding: 10px 24px;
-  background: #a65e31;
+  background: #1b85db;
   color: white;
   border-radius: 10px;
   font-weight: 700;
@@ -515,7 +515,7 @@
   justify-content: center;
   gap: 16px;
   min-width: 320px;
-  border-top: 5px solid #a65e31;
+  border-top: 5px solid #1b85db;
   animation: popUpNotif 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   text-align: center;
 }

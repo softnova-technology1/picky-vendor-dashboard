@@ -251,7 +251,7 @@ export default function SettingsPage() {
             <div className={styles.activityModal}>
               <div className={styles.modalHeader}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <History size={24} color="#a65e31" />
+                  <History size={24} color="#1b85db" />
                   <h2>All Store Activity</h2>
                 </div>
                 <div className={styles.closeIcon} onClick={() => setShowAllActivityModal(false)}>
@@ -385,7 +385,7 @@ export default function SettingsPage() {
             {/* Notification Heading */}
             <div style={{ marginTop: '24px', marginBottom: '8px' }}>
               <div className={styles.sectionTitle}>
-                 <Bell size={20} color="#a65e31" />
+                 <Bell size={20} color="#1b85db" />
                  <h2 style={{ fontSize: '20px', fontWeight: 700, margin: 0 }}>Notification Settings</h2>
               </div>
               <p style={{ fontSize: '13px', color: '#6b7280', margin: '4px 0 16px 30px' }}>Configure how and when you receive alerts across various channels.</p>
@@ -578,8 +578,8 @@ export default function SettingsPage() {
         {/* Global Alerts Container */}
         <div className={styles.alertsContainer}>
           {alerts.map(alert => (
-            <div key={alert.id} className={styles.alert} style={{ borderTopColor: alert.type === 'error' ? '#ef4444' : '#a65e31' }}>
-              {alert.type === 'success' ? <CheckCircle2 size={40} color="#a65e31" /> : <XCircle size={40} color="#ef4444" />}
+            <div key={alert.id} className={styles.alert} style={{ borderTopColor: alert.type === 'error' ? '#ef4444' : '#1b85db' }}>
+              {alert.type === 'success' ? <CheckCircle2 size={40} color="#1b85db" /> : <XCircle size={40} color="#ef4444" />}
               <span style={{ fontWeight: 700 }}>{alert.message}</span>
             </div>
           ))}

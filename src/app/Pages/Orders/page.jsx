@@ -19,10 +19,17 @@ export default function OrdersPage() {
   const [selectedRange, setSelectedRange] = useState("all");
   const [showFilterMenu, setShowFilterMenu] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 5;
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Reset to first page when filter changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedRange]);
 
   const filterOptions = [
     { label: "All Orders", value: "all" },
@@ -56,6 +63,12 @@ export default function OrdersPage() {
       return order.date.startsWith(selectedRange);
     });
   }, [selectedRange]);
+
+  const totalPages = Math.ceil(filteredOrders.length / ITEMS_PER_PAGE);
+  const paginatedOrders = useMemo(() => {
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    return filteredOrders.slice(start, start + ITEMS_PER_PAGE);
+  }, [filteredOrders, currentPage]);
 
   const handleExport = () => {
     const rows = [
@@ -196,7 +209,7 @@ export default function OrdersPage() {
               </tr>
             </thead>
             <tbody>
-              {filteredOrders.map((order, idx) => (
+              {paginatedOrders.map((order, idx) => (
                 <tr key={idx}>
                   <td className={styles.orderId}>{order.id}</td>
                   <td>
@@ -231,12 +244,31 @@ export default function OrdersPage() {
 
           <div className={styles.pagination}>
             <div className={styles.paginationInfo}>
-              Showing {filteredOrders.length} results
+              Showing {Math.min(filteredOrders.length, (currentPage - 1) * ITEMS_PER_PAGE + 1)} to {Math.min(filteredOrders.length, currentPage * ITEMS_PER_PAGE)} of {filteredOrders.length} results
             </div>
             <div className={styles.paginationControls}>
-              <button className={styles.pageBtn} disabled>Previous</button>
-              <div className={`${styles.pageNum} ${styles.pageNumActive}`}>1</div>
-              <button className={styles.pageBtn}>Next</button>
+              <button 
+                className={styles.navArrow} 
+                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                disabled={currentPage === 1}
+              >
+                <ChevronLeft size={20} />
+              </button>
+              
+              <div className={styles.progressContainer}>
+                <div 
+                  className={styles.progressBar} 
+                  style={{ width: `${(currentPage / totalPages) * 100}%` }}
+                ></div>
+              </div>
+
+              <button 
+                className={styles.navArrow} 
+                onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                disabled={currentPage === totalPages || totalPages === 0}
+              >
+                <ChevronRight size={20} />
+              </button>
             </div>
           </div>
         </div>

@@ -56,7 +56,7 @@ const WEEKLY_SALES_DATA = [
 ];
 
 const CATEGORY_SPLIT = [
-  { name: 'High-End Furniture', percentage: 42, color: '#b45309' },
+  { name: 'High-End Furniture', percentage: 42, color: '#1b85db' },
   { name: 'Art & Collectibles', percentage: 28, color: '#1e293b' },
   { name: 'Vintage Textiles', percentage: 18, color: '#64748b' },
   { name: 'Lighting Fixtures', percentage: 12, color: '#cbd5e1' },
@@ -140,7 +140,7 @@ export default function AnalyticsPage() {
     },
     fill: { opacity: 1 },
     tooltip: { theme: 'light', y: { formatter: (val) => `${val}k` } },
-    colors: ['#b45309', '#fed7aa'],
+    colors: ['#1b85db', '#d0e6f8'],
     legend: { show: false },
     grid: { borderColor: '#f1f5f9', strokeDashArray: 4 }
   };
@@ -168,8 +168,8 @@ export default function AnalyticsPage() {
         {/* Global Alerts Container */}
         <div className={styles.alertsContainer}>
           {alerts.map(alert => (
-            <div key={alert.id} className={styles.alert} style={{ borderLeftColor: alert.type === 'error' ? '#ef4444' : '#b45309' }}>
-              {alert.type === 'success' ? <CheckCircle2 size={18} color="#b45309" /> : <AlertCircle size={18} color="#ef4444" />}
+            <div key={alert.id} className={styles.alert} style={{ borderLeftColor: alert.type === 'error' ? '#ef4444' : '#1b85db' }}>
+              {alert.type === 'success' ? <CheckCircle2 size={18} color="#1b85db" /> : <AlertCircle size={18} color="#ef4444" />}
               <span style={{ fontWeight: 600, fontSize: '13px' }}>{alert.message}</span>
             </div>
           ))}
@@ -226,11 +226,11 @@ export default function AnalyticsPage() {
               </div>
               <div style={{ display: 'flex', gap: '24px', justifyContent: 'center', marginTop: '24px', fontSize: '11px', color: '#64748b', fontWeight: '600' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <div style={{ width: '8px', height: '8px', borderRadius: '2px', backgroundColor: '#b45309' }}></div>
+                  <div style={{ width: '8px', height: '8px', borderRadius: '2px', backgroundColor: '#1b85db' }}></div>
                   Actual Revenue
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <div style={{ width: '8px', height: '8px', borderRadius: '2px', backgroundColor: '#fed7aa' }}></div>
+                  <div style={{ width: '8px', height: '8px', borderRadius: '2px', backgroundColor: '#d0e6f8' }}></div>
                   Revenue Projections
                 </div>
               </div>
@@ -305,7 +305,7 @@ export default function AnalyticsPage() {
           <div className={styles.performerModal}>
             <div className={styles.modalHeader}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <TrendingUp size={24} color="#b45309" />
+                <TrendingUp size={24} color="#1b85db" />
                 <h2 style={{ fontSize: '20px', fontWeight: 800 }}>Full Leaderboard</h2>
               </div>
               <div className={styles.closeBtn} onClick={() => setShowPerformersModal(false)}>
@@ -335,7 +335,7 @@ export default function AnalyticsPage() {
 
             <div style={{ padding: '20px', borderTop: '1px solid #e2e8f0', display: 'flex', justifyContent: 'flex-end' }}>
               <button 
-                style={{ padding: '10px 24px', backgroundColor: '#b45309', color: 'white', border: 'none', borderRadius: '10px', fontWeight: 700, cursor: 'pointer' }}
+                style={{ padding: '10px 24px', backgroundColor: '#1b85db', color: 'white', border: 'none', borderRadius: '10px', fontWeight: 700, cursor: 'pointer' }}
                 onClick={() => setShowPerformersModal(false)}
               >
                 Done

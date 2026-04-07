@@ -1,6 +1,6 @@
 :global(:root) {
-  --primary-hub: #b45309;
-  --primary-hub-hover: #92400e;
+  --primary-hub: #1b85db;
+  --primary-hub-hover: #1569ad;
   --bg-main: #f8fafc;
   --bg-card: #ffffff;
   --text-main: #1e293b;
@@ -57,7 +57,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  box-shadow: 0 4px 6px -1px rgba(180, 83, 9, 0.2);
+  box-shadow: 0 4px 6px -1px rgba(27, 133, 219, 0.2);
 }
 
 /* Stats Cards */
@@ -85,7 +85,7 @@
 
 .statIcon {
   padding: 8px;
-  background-color: #fffbeb;
+  background-color: #eef8ff;
   color: var(--primary-hub);
   border-radius: 8px;
 }
@@ -206,10 +206,10 @@
 .insightBox {
   display: flex;
   gap: 12px;
-  background-color: #fff7ed;
+  background-color: #eef8ff;
   padding: 16px;
   border-radius: 12px;
-  color: #b45309;
+  color: #1b85db;
   font-size: 12px;
   line-height: 1.5;
 }
@@ -374,7 +374,7 @@
 }
 
 .closeBtn:hover {
-  color: #b45309;
+  color: #1b85db;
   transform: rotate(90deg);
 }
 

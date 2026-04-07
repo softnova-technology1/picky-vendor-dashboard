@@ -68,6 +68,105 @@ const initialProducts = [
     status: "active",
     icon: <Briefcase size={24} color="#f59e0b" /> 
   },
+  { 
+    id: 5, 
+    name: "Glass Coffee Press", 
+    sku: "KIT-9281", 
+    category: "Kitchen", 
+    price: "$45.00", 
+    stock: 120, 
+    stockStatus: "good",
+    status: "active",
+    icon: <Package size={24} color="#10b981" /> 
+  },
+  { 
+    id: 6, 
+    name: "Bluetooth Earbuds", 
+    sku: "AUD-1029", 
+    category: "Electronics", 
+    price: "$120.00", 
+    stock: 15, 
+    stockStatus: "low",
+    status: "active",
+    icon: <Headphones size={24} color="#ef4444" /> 
+  },
+  { 
+    id: 7, 
+    name: "Classic Denim Jacket", 
+    sku: "CLO-5521", 
+    category: "Apparel", 
+    price: "$89.00", 
+    stock: 65, 
+    stockStatus: "good",
+    status: "active",
+    icon: <Package size={24} color="#3b82f6" /> 
+  },
+  { 
+    id: 8, 
+    name: "Wooden Desktop Organizer", 
+    sku: "OFF-3321", 
+    category: "Office", 
+    price: "$35.00", 
+    stock: 8, 
+    stockStatus: "low",
+    status: "active",
+    icon: <Briefcase size={24} color="#f59e0b" /> 
+  },
+  { 
+    id: 9, 
+    name: "Yoga Mat Pro", 
+    sku: "SPO-1122", 
+    category: "Sports", 
+    price: "$60.00", 
+    stock: 200, 
+    stockStatus: "good",
+    status: "active",
+    icon: <Monitor size={24} color="#10b981" /> 
+  },
+  { 
+    id: 10, 
+    name: "Ceramic Planter Set", 
+    sku: "GAR-4455", 
+    category: "Garden", 
+    price: "$28.00", 
+    stock: 45, 
+    stockStatus: "good",
+    status: "active",
+    icon: <Package size={24} color="#3b82f6" /> 
+  },
+  { 
+    id: 11, 
+    name: "Smart Thermostat", 
+    sku: "HOM-8899", 
+    category: "Home", 
+    price: "$199.00", 
+    stock: 32, 
+    stockStatus: "good",
+    status: "active",
+    icon: <Monitor size={24} color="#10b981" /> 
+  },
+  { 
+    id: 12, 
+    name: "Leather Journal", 
+    sku: "STA-6677", 
+    category: "Stationery", 
+    price: "$22.00", 
+    stock: 0, 
+    stockStatus: "low",
+    status: "active",
+    icon: <Briefcase size={24} color="#ef4444" /> 
+  },
+  { 
+    id: 13, 
+    name: "Acoustic Guitar Strings", 
+    sku: "MUS-2233", 
+    category: "Music", 
+    price: "$15.00", 
+    stock: 500, 
+    stockStatus: "good",
+    status: "active",
+    icon: <Headphones size={24} color="#3b82f6" /> 
+  },
 ];
 
 export default function ProductsPage() {
@@ -75,6 +174,8 @@ export default function ProductsPage() {
   const [products, setProducts] = useState(initialProducts);
   const [activeTab, setActiveTab] = useState("All Items");
   const [mounted, setMounted] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 4;
 
   useEffect(() => {
     setMounted(true);
@@ -106,6 +207,16 @@ export default function ProductsPage() {
         return products;
     }
   }, [products, activeTab]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeTab]);
+
+  const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
+  const paginatedProducts = useMemo(() => {
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    return filteredProducts.slice(start, start + ITEMS_PER_PAGE);
+  }, [filteredProducts, currentPage]);
 
   const handleDelete = (id) => {
     if (confirm("Are you sure you want to delete this product?")) {
@@ -169,18 +280,18 @@ export default function ProductsPage() {
               <h4>Weekly Performance</h4>
               <h3>Top Performing Category: Leather Goods</h3>
             </div>
-            <div style={{ height: '120px', marginTop: 'auto' }}>
+            <div className={styles.chartWrapper}>
               <Chart 
                 options={{
                   chart: { type: 'bar', sparkline: { enabled: true } },
-                  plotOptions: { bar: { columnWidth: '60%', borderRadius: 2 } },
-                  colors: ['rgba(255,255,255,0.3)'],
+                  plotOptions: { bar: { columnWidth: '60%', borderRadius: 4 } },
+                  colors: ['rgba(255,255,255,0.25)'],
                   states: { active: { filter: { type: 'none' } }, hover: { filter: { type: 'lighten', value: 0.15 } } },
                   tooltip: { enabled: false }
                 }}
                 series={[{ data: [30, 50, 40, 100, 60, 45, 70] }]}
                 type="bar"
-                height={120}
+                height={140}
               />
             </div>
           </div>
@@ -217,7 +328,7 @@ export default function ProductsPage() {
               </tr>
             </thead>
             <tbody>
-              {filteredProducts.map((item) => (
+              {paginatedProducts.map((item) => (
                 <tr key={item.id}>
                   <td>
                     <div className={styles.productImg}>
@@ -282,27 +393,40 @@ export default function ProductsPage() {
           </table>
 
           <div className={styles.pagination}>
-            <div className={styles.showingText}>Showing {filteredProducts.length} products</div>
+            <div className={styles.showingText}>
+              Showing {Math.min(filteredProducts.length, (currentPage - 1) * ITEMS_PER_PAGE + 1)} to {Math.min(filteredProducts.length, currentPage * ITEMS_PER_PAGE)} of {filteredProducts.length} products
+            </div>
             <div className={styles.paginationButtons}>
-              <button className={styles.navArrow}><ChevronLeft size={18} /></button>
-              <button className={`${styles.pageBtn} ${styles.pageActive}`}>1</button>
-              <button className={styles.pageBtn}>2</button>
-              <button className={styles.pageBtn}>3</button>
-              <div style={{ padding: '0 8px', color: '#9ca3af' }}>...</div>
-              <button className={styles.pageBtn}>125</button>
-              <button className={styles.navArrow}><ChevronRight size={18} /></button>
+              <button 
+                className={styles.navArrow}
+                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                disabled={currentPage === 1}
+              >
+                <ChevronLeft size={20} />
+              </button>
+              
+              <div className={styles.dotContainer}>
+                {[...Array(totalPages)].map((_, i) => (
+                  <div 
+                    key={i + 1}
+                    className={`${styles.dot} ${currentPage === i + 1 ? styles.activeDot : ""}`}
+                    onClick={() => setCurrentPage(i + 1)}
+                  ></div>
+                ))}
+              </div>
+
+              <button 
+                className={styles.navArrow}
+                onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                disabled={currentPage === totalPages || totalPages === 0}
+              >
+                <ChevronRight size={20} />
+              </button>
             </div>
           </div>
         </div>
 
-        <footer className={styles.footer}>
-          <div className={styles.copyright}>© 2024 Picky Vendor CRM. All rights reserved.</div>
-          <div className={styles.footerLinks}>
-            <a href="#" className={styles.footerLink}>Privacy Policy</a>
-            <a href="#" className={styles.footerLink}>Terms of Service</a>
-            <a href="#" className={styles.footerLink}>Help Center</a>
-          </div>
-        </footer>
+
       </div>
     </AppLayout>
   );

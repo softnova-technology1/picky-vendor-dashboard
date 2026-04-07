@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
+import { jsPDF } from 'jspdf';
 import { 
   DollarSign, 
   CreditCard, 
@@ -73,6 +74,22 @@ export default function PaymentsPage() {
   const [activeMethod, setActiveMethod] = useState(null);
   const [selectedMethod, setSelectedMethod] = useState('Bank');
   const [selectedRange, setSelectedRange] = useState('7months');
+  const [payoutMethod, setPayoutMethod] = useState('Bank');
+  const [copiedId, setCopiedId] = useState(null);
+  const [showPayoutFormModal, setShowPayoutFormModal] = useState(false);
+  const [payoutDetails, setPayoutDetails] = useState({
+    accountNumber: '',
+    ifscCode: '',
+    upiId: '',
+    email: ''
+  });
+
+  const handleCopyId = (id) => {
+    navigator.clipboard.writeText(id);
+    setCopiedId(id);
+    addAlert(`ID ${id} copied to clipboard!`, 'success');
+    setTimeout(() => setCopiedId(null), 2000);
+  };
 
   const currentData = selectedRange === '30days' ? ANALYTICS_DATA_30 : ANALYTICS_DATA;
 
@@ -128,6 +145,80 @@ export default function PaymentsPage() {
     setShowAddMethodModal(false);
   };
 
+  const handleDownloadReceipt = (payout) => {
+    if (!payout) return;
+    addAlert(`Generating official PDF receipt for ${payout.id}...`, 'success');
+  
+    try {
+      const doc = new jsPDF();
+      
+      // Receipt Header
+      doc.setFontSize(22);
+      doc.setTextColor(27, 133, 219); // Brand primary color
+      doc.text("PICKY VENDOR CRM", 105, 30, { align: 'center' });
+      
+      doc.setFontSize(12);
+      doc.setTextColor(100, 116, 139);
+      doc.text("OFFICIAL TRANSACTION RECEIPT", 105, 38, { align: 'center' });
+      
+      doc.setDrawColor(226, 232, 240);
+      doc.line(20, 45, 190, 45); // Divider
+      
+      // Transaction Info
+      doc.setFontSize(10);
+      doc.setTextColor(30, 41, 59);
+      doc.text(`Transaction ID:`, 20, 60);
+      doc.text(`${payout.id}`, 80, 60);
+      
+      doc.text(`Date:`, 20, 68);
+      doc.text(`${payout.date}`, 80, 68);
+      
+      doc.text(`Status:`, 20, 76);
+      doc.text(`${payout.status}`, 80, 76);
+      
+      doc.line(20, 85, 190, 85); // Divider
+  
+      // Amount Section
+      doc.setFontSize(11);
+      doc.text(`Description`, 20, 100);
+      doc.text(`Amount`, 170, 100, { align: 'right' });
+      
+      doc.setFontSize(10);
+      doc.setTextColor(100, 116, 139);
+      doc.text(`Gross Transaction Amount`, 20, 115);
+      doc.text(`₹${payout.amount.toLocaleString()}`, 170, 115, { align: 'right' });
+      
+      doc.text(`Platform Commission (10%)`, 20, 125);
+      doc.text(`- ₹${payout.commission.toLocaleString()}`, 170, 125, { align: 'right' });
+      
+      doc.line(100, 135, 190, 135); // Sub-divider
+      
+      doc.setFontSize(14);
+      doc.setTextColor(27, 133, 219);
+      doc.setFont(undefined, 'bold');
+      doc.text(`NET PAYOUT`, 20, 148);
+      doc.text(`₹${payout.net.toLocaleString()}`, 170, 148, { align: 'right' });
+      
+      // Footer
+      doc.setFontSize(9);
+      doc.setFont(undefined, 'normal');
+      doc.setTextColor(148, 163, 184);
+      doc.text("----------------------------------------------------------------", 105, 180, { align: 'center' });
+      doc.text("This is an electronically generated receipt.", 105, 188, { align: 'center' });
+      doc.text("For any queries, please contact support@picky-crm.com", 105, 193, { align: 'center' });
+  
+      // Save PDF
+      doc.save(`Receipt-${payout.id}.pdf`);
+      
+      setTimeout(() => {
+        addAlert("Official Receipt downloaded successfully!", "success");
+      }, 1000);
+    } catch (error) {
+      console.error("PDF Export Error:", error);
+      addAlert("Failed to generate PDF. Please try again.", "error");
+    }
+  };
+
   const handleDownloadStatement = () => {
     addAlert("Generating account statement...", "success");
     setTimeout(() => {
@@ -143,7 +234,7 @@ export default function PaymentsPage() {
       fontFamily: 'inherit',
     },
     dataLabels: { enabled: false },
-    stroke: { curve: 'smooth', width: 3, colors: ['#6366f1'] },
+    stroke: { curve: 'smooth', width: 3, colors: ['#1b85db'] },
     fill: {
       type: 'gradient',
       gradient: {
@@ -152,8 +243,8 @@ export default function PaymentsPage() {
         opacityTo: 0.05,
         stops: [20, 100],
         colorStops: [
-          { offset: 0, color: '#6366f1', opacity: 0.45 },
-          { offset: 100, color: '#6366f1', opacity: 0.05 }
+          { offset: 0, color: '#1b85db', opacity: 0.45 },
+          { offset: 100, color: '#1b85db', opacity: 0.05 }
         ]
       }
     },
@@ -173,7 +264,7 @@ export default function PaymentsPage() {
       theme: 'light',
       y: { formatter: (val) => `₹${val.toLocaleString()}` } 
     },
-    colors: ['#6366f1'],
+    colors: ['#1b85db'],
     grid: { borderColor: '#f1f5f9', strokeDashArray: 4 }
   };
 
@@ -241,28 +332,57 @@ export default function PaymentsPage() {
               </div>
 
               <form onSubmit={handleSaveMethod}>
-                <div className={styles.formGrid}>
-                  <div className={styles.inputWrapper}>
-                    <label>Account Holder Name</label>
-                    <input type="text" className={styles.formInput} defaultValue="Alexander Sterling" />
-                  </div>
-                  <div className={styles.inputWrapper}>
-                    <label>Bank Name</label>
-                    <input type="text" className={styles.formInput} placeholder="e.g. Global Reserve Bank" />
-                  </div>
-                  <div className={`${styles.inputWrapper} ${styles.fullWidth}`}>
-                    <label>Account Number</label>
-                    <input type="text" className={`${styles.formInput} ${styles.inputError}`} defaultValue="8821" />
-                    <span className={styles.errorText}>Please enter a valid 12-18 digit account number.</span>
-                  </div>
-                  <div className={styles.inputWrapper}>
-                    <label>IFSC / SWIFT Code</label>
-                    <input type="text" className={styles.formInput} placeholder="ABCD0123456" />
-                  </div>
-                  <div className={styles.inputWrapper}>
-                    <label>Branch</label>
-                    <input type="text" className={styles.formInput} placeholder="Central Square Branch" />
-                  </div>
+                <div className={styles.dynamicFieldsContainer}>
+                  {selectedMethod === 'Bank' && (
+                    <div className={`${styles.formGrid} ${styles.animateField}`}>
+                      <div className={styles.inputWrapper}>
+                        <label>Account Holder Name</label>
+                        <input type="text" className={styles.formInput} placeholder="e.g. John Doe" />
+                      </div>
+                      <div className={styles.inputWrapper}>
+                        <label>Bank Name</label>
+                        <input type="text" className={styles.formInput} placeholder="e.g. Global Reserve Bank" />
+                      </div>
+                      <div className={`${styles.inputWrapper} ${styles.fullWidth}`}>
+                        <label>Account Number</label>
+                        <input type="text" className={styles.formInput} placeholder="Enter 12-16 digit account number" />
+                      </div>
+                      <div className={styles.inputWrapper}>
+                        <label>IFSC / SWIFT Code</label>
+                        <input type="text" className={styles.formInput} placeholder="ABCD0123456" />
+                      </div>
+                      <div className={styles.inputWrapper}>
+                        <label>Branch Name</label>
+                        <input type="text" className={styles.formInput} placeholder="Central Square Branch" />
+                      </div>
+                    </div>
+                  )}
+
+                  {selectedMethod === 'PayPal' && (
+                    <div className={`${styles.formGrid} ${styles.animateField}`}>
+                      <div className={`${styles.inputWrapper} ${styles.fullWidth}`}>
+                        <label>PayPal Email Address</label>
+                        <input type="email" className={styles.formInput} placeholder="yourname@gmail.com" />
+                      </div>
+                      <div className={`${styles.inputWrapper} ${styles.fullWidth}`}>
+                        <label>Confirm Email</label>
+                        <input type="email" className={styles.formInput} placeholder="Re-enter your email" />
+                      </div>
+                    </div>
+                  )}
+
+                  {selectedMethod === 'UPI' && (
+                    <div className={`${styles.formGrid} ${styles.animateField}`}>
+                      <div className={`${styles.inputWrapper} ${styles.fullWidth}`}>
+                        <label>UPI ID / VPA</label>
+                        <input type="text" className={styles.formInput} placeholder="username@okaxis or 9876543210@ybl" />
+                      </div>
+                      <div className={`${styles.inputWrapper} ${styles.fullWidth}`}>
+                        <label>Aadhar Linked Number (Optional)</label>
+                        <input type="text" className={styles.formInput} placeholder="9876543210" />
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div className={styles.securityNote}>
@@ -353,6 +473,114 @@ export default function PaymentsPage() {
           </div>
         )}
 
+        {/* Payout Form Modal - Dynamic Details Request */}
+        {showPayoutFormModal && (
+          <div className={styles.modalOverlay}>
+            <div className={styles.modal} style={{ maxWidth: '400px' }}>
+              <button 
+                className={styles.actionBtn} 
+                style={{ position: 'absolute', right: '20px', top: '20px' }}
+                onClick={() => setShowPayoutFormModal(false)}
+              >
+                <X size={20} />
+              </button>
+
+              <div className={styles.modalHeader}>
+                <div style={{ marginBottom: '16px', display: 'flex', justifyContent: 'center' }}>
+                  <div className={styles.methodItemIcon} style={{ width: '56px', height: '56px', background: '#f0f9ff', color: '#1b85db' }}>
+                    {payoutMethod === 'Bank' ? <Banknote size={28} /> : payoutMethod === 'UPI' ? <Smartphone size={28} /> : <CreditCard size={28} />}
+                  </div>
+                </div>
+                <h2>Secure Payout</h2>
+                <p>Transferring ₹{Number(withdrawAmount).toLocaleString()} to your {payoutMethod}</p>
+              </div>
+
+              <div className={styles.dynamicFieldsContainer} style={{ minHeight: 'auto', marginBottom: '24px' }}>
+                {payoutMethod === 'Bank' && (
+                  <div className={styles.animateField}>
+                    <div className={styles.inputGroup} style={{ marginBottom: '16px' }}>
+                      <label>Account Number</label>
+                      <input 
+                        type="text" 
+                        placeholder="Enter 12-16 digit account number" 
+                        className={styles.inputField}
+                        value={payoutDetails.accountNumber}
+                        onChange={(e) => setPayoutDetails({...payoutDetails, accountNumber: e.target.value})}
+                        required
+                      />
+                    </div>
+                    <div className={styles.inputGroup}>
+                      <label>IFSC Code</label>
+                      <input 
+                        type="text" 
+                        placeholder="SBIN0012345" 
+                        className={styles.inputField}
+                        value={payoutDetails.ifscCode}
+                        onChange={(e) => setPayoutDetails({...payoutDetails, ifscCode: e.target.value})}
+                        required
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {payoutMethod === 'UPI' && (
+                  <div className={styles.animateField}>
+                    <div className={styles.inputGroup}>
+                      <label>UPI ID / G-Pay Number</label>
+                      <input 
+                        type="text" 
+                        placeholder="username@okaxis or 9876543210" 
+                        className={styles.inputField}
+                        value={payoutDetails.upiId}
+                        onChange={(e) => setPayoutDetails({...payoutDetails, upiId: e.target.value})}
+                        required
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {payoutMethod === 'PayPal' && (
+                  <div className={styles.animateField}>
+                    <div className={styles.inputGroup}>
+                      <label>PayPal Email Address</label>
+                      <input 
+                        type="email" 
+                        placeholder="yourname@example.com" 
+                        className={styles.inputField}
+                        value={payoutDetails.email}
+                        onChange={(e) => setPayoutDetails({...payoutDetails, email: e.target.value})}
+                        required
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div style={{ display: 'flex', gap: '12px' }}>
+                <button className={styles.withdrawBtn} style={{ background: '#f1f5f9', color: '#64748b', flex: 1 }} onClick={() => setShowPayoutFormModal(false)}>
+                  Cancel
+                </button>
+                <button 
+                  className={styles.withdrawBtn} 
+                  style={{ flex: 2 }} 
+                  onClick={() => {
+                    setShowPayoutFormModal(false);
+                    // Trigger actual withdrawal notification
+                    setIsProcessing(true);
+                    setTimeout(() => {
+                      addAlert(`Withdrawal request for ₹${withdrawAmount} initiated successfully!`, 'success');
+                      setWithdrawAmount('');
+                      setIsProcessing(false);
+                    }, 1500);
+                  }}
+                >
+                  {isProcessing ? 'Verifying...' : 'Finalize Payout'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Payout Details Modal */}
         {showPayoutDetailsModal && activePayout && (
           <div className={styles.modalOverlay}>
@@ -416,7 +644,7 @@ export default function PaymentsPage() {
               </div>
 
               <div className={styles.modalFooter} style={{ marginTop: '24px' }}>
-                <button type="button" className={styles.cancelBtn} style={{ flex: 1 }} onClick={handleDownloadStatement}>
+                <button type="button" className={styles.cancelBtn} style={{ flex: 1 }} onClick={() => handleDownloadReceipt(activePayout)}>
                   <Download size={16} style={{ marginRight: '8px' }} />
                   PDF Receipt
                 </button>
@@ -437,32 +665,36 @@ export default function PaymentsPage() {
             <div className={styles.statContent}>
               <h3>Total Earnings</h3>
               <div className={styles.statValue}>₹2,50,450</div>
+              <div className={styles.profitIndicator}><TrendingUp size={12} /> <span>12% Increase</span></div>
             </div>
-            <div className={styles.statIcon}><TrendingUp size={20} /></div>
+            <div className={`${styles.statIcon} ${styles.iconBlue}`}><TrendingUp size={20} /></div>
           </div>
 
           <div className={styles.statCard}>
             <div className={styles.statContent}>
               <h3>Total Paid</h3>
               <div className={styles.statValue}>₹1,95,000</div>
+              <div className={styles.profitIndicator}><span>34 Transactions</span></div>
             </div>
-            <div className={styles.statIcon}><CheckCircle2 size={20} /></div>
+            <div className={`${styles.statIcon} ${styles.iconGreen}`}><CheckCircle2 size={20} /></div>
           </div>
 
           <div className={styles.statCard}>
             <div className={styles.statContent}>
-              <h3>Pending Amount</h3>
+              <h3>Pending Payouts</h3>
               <div className={styles.statValue}>₹10,450</div>
+              <div className={styles.profitIndicator}><span>Processing (2)</span></div>
             </div>
-            <div className={styles.statIcon}><Clock size={20} /></div>
+            <div className={`${styles.statIcon} ${styles.iconAmber}`}><Clock size={20} /></div>
           </div>
 
           <div className={styles.statCard}>
             <div className={styles.statContent}>
-              <h3>Last Payout</h3>
-              <div className={styles.statValue}>28 Mar 2024</div>
+              <h3>Next Payout</h3>
+              <div className={styles.statValue}>28 Mar</div>
+              <div className={styles.profitIndicator}><span>Estimated Date</span></div>
             </div>
-            <div className={styles.statIcon}><Calendar size={20} /></div>
+            <div className={`${styles.statIcon} ${styles.iconBlue}`}><Calendar size={20} /></div>
           </div>
         </section>
 
@@ -503,36 +735,58 @@ export default function PaymentsPage() {
               <div className={styles.balanceAmount}>₹{availableBalance.toLocaleString()}</div>
             </div>
             
-            <form className={styles.payoutForm} onSubmit={handleWithdrawal}>
-              <div className={styles.inputGroup} style={{ marginBottom: '16px' }}>
-                <label>Withdrawal Amount</label>
-                <input 
-                  type="number" 
-                  placeholder="0.00" 
-                  className={styles.inputField}
-                  value={withdrawAmount}
-                  onChange={(e) => setWithdrawAmount(e.target.value)}
-                  required
-                />
+            <div className={styles.payoutForm}>
+              <div className={styles.methodTabGroup}>
+                <button 
+                  type="button"
+                  className={`${styles.methodTab} ${payoutMethod === 'Bank' ? styles.methodTabActive : ''}`}
+                  onClick={() => setPayoutMethod('Bank')}
+                >
+                  <Banknote size={16} />
+                  Bank
+                </button>
+                <button 
+                  type="button"
+                  className={`${styles.methodTab} ${payoutMethod === 'UPI' ? styles.methodTabActive : ''}`}
+                  onClick={() => setPayoutMethod('UPI')}
+                >
+                  <Smartphone size={16} />
+                  UPI / G-Pay
+                </button>
+                <button 
+                  type="button"
+                  className={`${styles.methodTab} ${payoutMethod === 'PayPal' ? styles.methodTabActive : ''}`}
+                  onClick={() => setPayoutMethod('PayPal')}
+                >
+                  <CreditCard size={16} />
+                  PayPal
+                </button>
               </div>
 
-              <div className={styles.inputGroup}>
-                <label>Payment Method</label>
-                <select className={styles.selectInput} style={{ width: '100%', padding: '12px' }}>
-                  <option>Bank Transfer (Default)</option>
-                  <option>PayPal</option>
-                </select>
+              <div className={styles.inputGroup} style={{ marginBottom: '20px' }}>
+                <label>Withdrawal Amount</label>
+                <div className={styles.amountInputWrapper}>
+                  <span>₹</span>
+                  <input 
+                    type="number" 
+                    placeholder="0.00" 
+                    className={styles.inputField}
+                    value={withdrawAmount}
+                    onChange={(e) => setWithdrawAmount(e.target.value)}
+                  />
+                </div>
               </div>
 
               <button 
-                type="submit" 
+                type="button" 
                 className={`${styles.withdrawBtn} ${styles.saveBtn}`}
-                style={{ marginTop: '20px', padding: '16px' }}
+                style={{ marginTop: '24px', padding: '16px' }}
                 disabled={isProcessing || !withdrawAmount}
+                onClick={() => setShowPayoutFormModal(true)}
               >
-                {isProcessing ? 'Processing...' : 'Confirm & Request'}
+                Confirm & Request
               </button>
-            </form>
+            </div>
           </section>
         </div>
 
@@ -620,7 +874,18 @@ export default function PaymentsPage() {
                 {filteredTransactions.length > 0 ? (
                   filteredTransactions.map((tx) => (
                     <tr key={tx.id}>
-                      <td data-label="PAYOUT ID" className={styles.orderId}>{tx.id}</td>
+                      <td data-label="PAYOUT ID" className={styles.orderId}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          {tx.id}
+                          <button 
+                            className={styles.copyBtn} 
+                            onClick={() => handleCopyId(tx.id)}
+                            title="Copy ID"
+                          >
+                            {copiedId === tx.id ? <CheckCircle2 size={12} color="#10b981" /> : <Plus size={12} style={{ transform: 'rotate(45deg)' }} />}
+                          </button>
+                        </div>
+                      </td>
                       <td data-label="AMOUNT">₹{tx.amount.toLocaleString()}</td>
                       <td data-label="STATUS">
                         <span className={`${styles.badge} ${
